@@ -6,7 +6,7 @@
 /*   By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 17:44:12 by vde-prad          #+#    #+#             */
-/*   Updated: 2022/10/28 19:14:59 by vde-prad         ###   ########.fr       */
+/*   Updated: 2022/10/28 20:04:24 by vde-prad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -41,6 +41,8 @@ int main(int ac, char **av, char **ep)
 		exit(-1);
 	}
 	printf("final");
+	char buf[500];
+	buff = read(pp[0]);
 
 }
 //pp[0]--->lectura en pipe
