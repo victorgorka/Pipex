@@ -5,7 +5,7 @@
 
 int main(int ac, char **av, char **ep)
 {
-	int tmp = dup(1);//hago copia del fd de stdout
+	// int tmp = dup(1);//hago copia del fd de stdout por si queremos recuperarlo
 	int fd = open("outfile", O_WRONLY);
 	int pp1[2];//FDs del primer pipe
 	int	pid;
