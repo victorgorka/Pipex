@@ -7,9 +7,10 @@ int main(int ac, char **av, char **ep)
 {
 	// int tmp = dup(1);//hago copia del fd de stdout por si queremos recuperarlo
 	int fd = open("outfile", O_WRONLY);
-	int pp1[2];//FDs del primer pipe
+	int pp[2];//FDs del primer pipe
 	int	pid;
 	//char *op[2] = {"ls", NULL};
+	(void)ac;
 
 	dup2(fd, 1);//copia del fichero abierto al fd de stdout
 	close(fd);//cerrar fd antiguo del fichero
@@ -29,16 +30,8 @@ int main(int ac, char **av, char **ep)
 		execve("/bin/ls", &av[1], ep);//ejecutamos un comando
 		printf("Error: execve failed\n");//si llega aqui es error
 		exit(-1);
-	} else
-	{
-		pid = fork();//creemos segundo proceso
-		if (pid == 0)
-		{
-			
-
-		}
 	}
-	dup2(tmp, 1);//no queremos que imprima en pantalla, duplicamos 'tmp' para que
+	// dup2(tmp, 1);//no queremos que imprima en pantalla, duplicamos 'tmp' para que
 				 //su fd ahora sea 1, la salida estandar. La salida se escribira
 				 //en 'tmp'
 	printf("final\n");
