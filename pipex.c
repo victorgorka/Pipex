@@ -6,7 +6,7 @@
 /*   By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 17:44:12 by vde-prad          #+#    #+#             */
-/*   Updated: 2022/10/31 17:03:52 by vde-prad         ###   ########.fr       */
+/*   Updated: 2022/11/02 12:27:07 by vde-prad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -20,37 +20,30 @@ int main(int ac, char **av, char **ep)
 	int		fdin = open("infile", O_RDONLY);
 	int		fdout = open("outfile", O_WRONLY);
 	int		pp1[2];
-	int		pp2[2];
 	int		pid;
-	char	infile[500];
 
-	read(fdin, infile, 499);
 	(void)ac;
-	dup2(fdout, STDOUT_FILENO);
-	close(fdin);
-	close(fdout);
-	if (pipe(pp1) == -1 && pipe(pp2) == -1)
+	if (pipe(pp1) == 1)
 	{
 		printf("Error al abrir los pipes\n");
 		exit(-1);
 	}
-	// close(pp1[0]);
-	write(pp1[1], infile, 48);
 	pid = fork();
 	if (pid == 0)
 	{
-		dup2(pp1[0], STDIN_FILENO);
+		dup2(fdin, STDIN_FILENO);
+		dup2(fdout, STDOUT_FILENO);
 		close(pp1[0]);
-		write(pp2[1], "Soy hijo 1\n", 11);
+		close(pp1[1]);
+		write(STDOUT_FILENO, "Soy hijo 1\n", 11);
 		execve("/bin/cat", &av[1], ep);
 		printf("Error: execve failed\n");
 		exit(-1);
-	}
-	char buff[500];
-	close(pp2[1]);
-	read(pp2[0], buff, 80);
-	close(pp2[0]);
-	printf("%s", buff);
+	} 
+	close(pp1[1]);
+	close(pp1[0]);
+	close(fdin);
+	close(fdout);
 }
 //pp[0]--->lectura en pipe
 //pp[1]--->escritura en pipe
