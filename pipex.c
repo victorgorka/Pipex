@@ -6,7 +6,7 @@
 /*   By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 17:44:12 by vde-prad          #+#    #+#             */
-/*   Updated: 2022/11/03 15:10:23 by vde-prad         ###   ########.fr       */
+/*   Updated: 2022/11/03 19:28:01 by vde-prad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -34,10 +34,27 @@ void	child2(int fdout, int *pipe, char **ep, char **av)
 	exit(-1);
 }
 
-// void	findpath(char **ep)
-// {
-//     
-// }
+char	**parsepath(char **ep)
+{
+	unsigned int	i;
+	char	*pathline;
+	char	**paths;
+
+	i = 0;
+	while (ep[i])
+	{
+		pathline = ft_strnstr(ep[i], "PATH", 5);
+		if (pathline)
+		{
+			pathline = ft_substr(pathline, 5, 200);
+			paths = ft_split(pathline, ':');
+			free(pathline);
+			return (paths);
+		}
+		i++;
+	}
+	return 0;
+}
 
 int main(int ac, char **av, char **ep)
 {
