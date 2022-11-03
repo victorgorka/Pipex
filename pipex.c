@@ -6,7 +6,7 @@
 /*   By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 17:44:12 by vde-prad          #+#    #+#             */
-/*   Updated: 2022/11/02 19:11:00 by vde-prad         ###   ########.fr       */
+/*   Updated: 2022/11/03 10:39:24 by vde-prad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -20,18 +20,21 @@ void	child(int fdin, int *pipe, char **ep, char **av)
 	dup2(fdin, STDIN_FILENO);
 	dup2(pipe[1], STDOUT_FILENO);
 	close(pipe[0]);
+	close(pipe[1]);
 	execve("/bin/cat", &av[0], ep);
-	printf("Aqui si Error: execve failed\n");
+	printf("Error 1: execve failed\n");
 	exit(-1);
 }
 
 void	child2(int fdout, int *pipe, char **ep, char **av)
 {
-	dup2(pipe[0], STDIN_FILENO);
 	dup2(fdout, STDOUT_FILENO);
+	printf("pipe: %d\n", pipe[0]);
+	dup2(pipe[0], STDIN_FILENO);
 	close(pipe[1]);
+	close(pipe[0]);
 	execve("/usr/bin/wc", &av[2], ep);
-	printf("Aqui Error: execve failed\n");
+	printf("Error 2: execve failed\n");
 	exit(-1);
 }
 int main(int ac, char **av, char **ep)

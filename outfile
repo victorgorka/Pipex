@@ -1,1 +1,2 @@
-Aqui Error: execve failed
+pipe: 5
+Error 2: execve failed
