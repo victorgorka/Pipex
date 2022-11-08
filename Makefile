@@ -6,29 +6,43 @@
 #    By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/08 11:02:01 by vde-prad          #+#    #+#              #
-#    Updated: 2022/11/08 14:59:00 by vde-prad         ###   ########.fr        #
+#    Updated: 2022/11/08 18:34:18 by vde-prad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS	= pipex.c
 OBJS	= ${SRCS:.c=.o}
-NAME	= pipex.a
+NAME	= pipex
+LIBRARY = libft/libft.a
 CC		= gcc
 CFLAGS	= -Wall -Wextra -Werror
 RM		= rm -f
 
-all: ${NAME}
+################# RULES #####################
+.c.o:
+	@${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
-%.o:.c
+all: lib comp
+	
+lib:
+	@echo "\nCOMPILING LIBFT"
+	@${MAKE} -C ./libft
 
-${NAME}: ${OBJS}
-	ar rcs ${NAME} ${OBJS}
+comp: ${NAME}
+
+$(NAME): ${OBJS}
+	@echo "\nCOMPILING PIPEX"
+	@${CC} ${OBJS} ${LIBRARY} -o ${NAME}
 
 clean:
-	${RM} ${OBJS} ${OBJS_BONUS}
+	@echo "LIMPIANDO"
+	@${MAKE} -C ./libft clean
+	@${RM} ${OBJS}
 
 fclean: clean
-	${RM} ${NAME}
+	@echo "LIMPIANDO"
+	@${MAKE} -C ./libft fclean
+	@${RM} ${NAME}
 
 re: fclean all
 
