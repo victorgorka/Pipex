@@ -6,7 +6,7 @@
 /*   By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 17:44:12 by vde-prad          #+#    #+#             */
-/*   Updated: 2022/11/10 17:11:06 by vde-prad         ###   ########.fr       */
+/*   Updated: 2022/11/10 17:52:08 by vde-prad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -66,7 +66,7 @@ char	**ft_chkaccess(char	**paths, char	*cmd, char	*options)
 		{
 			res[0] = ft_strdup(paths[i]);
 			res[1] = ft_strdup(options);
-			res[2] = ft_strdup("\0");
+			res[2] = NULL;
 			ft_freepaths(paths, i);
 			return (res);
 		}
@@ -140,14 +140,13 @@ int main(int argc, char *argv[], char **ep)
 	char	**paths;
 	int		i;
 
-	i = 0;
+	i = -1;
 	(void)argc;
 	(void)argv;
 	paths = ft_getpath(ep, "cat", "-e");
-	while (i < 3)
+	while (paths[i++])
 	{
 		puts(paths[i]);
 		free(paths[i]);
-		i++;
 	}
 }
