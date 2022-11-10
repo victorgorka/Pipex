@@ -6,7 +6,7 @@
 #    By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/08 11:02:01 by vde-prad          #+#    #+#              #
-#    Updated: 2022/11/08 18:34:18 by vde-prad         ###   ########.fr        #
+#    Updated: 2022/11/10 17:19:55 by vde-prad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,6 @@ CFLAGS	= -Wall -Wextra -Werror
 RM		= rm -f
 
 ################# RULES #####################
-.c.o:
-	@${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
 all: lib comp
 	
@@ -32,7 +30,7 @@ comp: ${NAME}
 
 $(NAME): ${OBJS}
 	@echo "\nCOMPILING PIPEX"
-	@${CC} ${OBJS} ${LIBRARY} -o ${NAME}
+	@${CC} ${CFLAGS} ${OBJS} ${LIBRARY} -o ${NAME}
 
 clean:
 	@echo "LIMPIANDO"

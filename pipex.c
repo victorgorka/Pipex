@@ -6,7 +6,7 @@
 /*   By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 17:44:12 by vde-prad          #+#    #+#             */
-/*   Updated: 2022/11/08 18:29:41 by vde-prad         ###   ########.fr       */
+/*   Updated: 2022/11/10 17:11:06 by vde-prad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -34,12 +34,55 @@ void	child2(int fdout, int *pipe, char **ep, char **av)
 	exit(-1);
 }
 
-char	**parsepath(char **ep)
+void	ft_freepaths(char	**paths, int	i)
+{
+	int	n;
+
+	n = 0;
+	while (paths[n])
+	{
+		if (n != i)
+			free(paths[n]);	
+		n++;
+	}
+}
+
+char	**ft_chkaccess(char	**paths, char	*cmd, char	*options)
+{
+	int		i;
+	char	*sufix;
+	char	**res;
+
+	res = malloc(3 * sizeof(char *));
+	sufix = malloc((ft_strlen(cmd) + 1) * sizeof(char));
+	sufix = ft_strjoin("/", cmd);
+	i = -1;
+	while (paths[++i])
+		paths[i] = ft_strjoin(paths[i], sufix);
+	i = 0;
+	while (paths[i])
+	{
+		if (!access(paths[i], F_OK | R_OK))
+		{
+			res[0] = ft_strdup(paths[i]);
+			res[1] = ft_strdup(options);
+			res[2] = ft_strdup("\0");
+			ft_freepaths(paths, i);
+			return (res);
+		}
+		i++;
+	}
+	return (0);
+}
+
+char	**ft_getpath(char **ep, char *cmd, char *options)
 {
 	unsigned int	i;
 	char	*pathline;
 	char	**paths;
+	char	**result;
 
+	paths = NULL;
 	i = 0;
 	while (ep[i])
 	{
@@ -49,45 +92,62 @@ char	**parsepath(char **ep)
 			pathline = ft_substr(pathline, 5, 200);
 			paths = ft_split(pathline, ':');
 			free(pathline);
-			return (paths);
+			break;
 		}
 		i++;
 	}
-	return 0;
+	result = ft_chkaccess(paths, cmd, options);
+	return (result);
 }
 
-int main(int ac, char **av, char **ep)
-{
-	int		fdin = open("infile", O_RDONLY);
-	int		fdout = open("outfile", O_WRONLY);
-	int		pp1[2];
-	int		pid;
-	int		status;
-	char	*argv[] = {"/bin/cat", "-e", 0, "/usr/bin/wc", "-l", 0};
-
-	(void)av;
-	(void)ac;
-	if (pipe(pp1) == 1)
-	{
-		printf("Error al abrir los pipes\n");
-		exit(-1);
-	}
-	pid = fork();
-	if (pid == 0)
-	{
-		pid = fork();
-		if (pid == 0)
-		{
-			child(fdin, pp1, ep, &argv[0]);
-		}
-		waitpid(pid, &status, 0);
-		child2(fdout, pp1, ep, &argv[3]);
-	} 
-	close(pp1[1]);
-	close(pp1[0]);
-	close(fdin);
-	close(fdout);
-	waitpid(pid, &status, 0);
-}
+// int main(int ac, char **av, char **ep)
+// {
+//     int		fdin = open("infile", O_RDONLY);
+//     int		fdout = open("outfile", O_WRONLY);
+//     int		pp1[2];
+//     int		pid;
+//     int		status;
+//     char	*argv[] = {"/bin/cat", "-e", 0, "/usr/bin/wc", "-l", 0};
+// 
+//     (void)av;
+//     (void)ac;
+//     if (pipe(pp1) == 1)
+//     {
+//         printf("Error al abrir los pipes\n");
+//         exit(-1);
+//     }
+//     pid = fork();
+//     if (pid == 0)
+//     {
+//         pid = fork();
+//         if (pid == 0)
+//         {
+//             child(fdin, pp1, ep, &argv[0]);
+//         }
+//         waitpid(pid, &status, 0);
+//         child2(fdout, pp1, ep, &argv[3]);
+//     } 
+//     close(pp1[1]);
+//     close(pp1[0]);
+//     close(fdin);
+//     close(fdout);
+	// waitpid(pid, &status, 0);
+// } 
 //pp[0]--->lectura en pipe
 //pp[1]--->escritura en pipe
+int main(int argc, char *argv[], char **ep)
+{
+	char	**paths;
+	int		i;
+
+	i = 0;
+	(void)argc;
+	(void)argv;
+	paths = ft_getpath(ep, "cat", "-e");
+	while (i < 3)
+	{
+		puts(paths[i]);
+		free(paths[i]);
+		i++;
+	}
+}
