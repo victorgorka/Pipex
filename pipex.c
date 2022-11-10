@@ -6,7 +6,7 @@
 /*   By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 17:44:12 by vde-prad          #+#    #+#             */
-/*   Updated: 2022/11/10 17:52:08 by vde-prad         ###   ########.fr       */
+/*   Updated: 2022/11/10 18:14:54 by vde-prad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -47,15 +47,27 @@ void	ft_freepaths(char	**paths, int	i)
 	}
 }
 
+void	ft_setssufix(char	*cmd, char	*sufix)
+{
+	sufix = malloc((ft_strlen(cmd) + 1) * sizeof(char));
+	if (!sufix)
+	{
+		perror("Error en reserva de memoria en 'sufix'\n");
+		return (0);
+	}
+	sufix = ft_strjoin("/", cmd);
+}
+
 char	**ft_chkaccess(char	**paths, char	*cmd, char	*options)
 {
 	int		i;
 	char	*sufix;
 	char	**res;
 
+	ft_setssufix(cmd, sufix);
 	res = malloc(3 * sizeof(char *));
-	sufix = malloc((ft_strlen(cmd) + 1) * sizeof(char));
-	sufix = ft_strjoin("/", cmd);
+	if (!res)
+		return (0);
 	i = -1;
 	while (paths[++i])
 		paths[i] = ft_strjoin(paths[i], sufix);
@@ -91,12 +103,13 @@ char	**ft_getpath(char **ep, char *cmd, char *options)
 		{
 			pathline = ft_substr(pathline, 5, 200);
 			paths = ft_split(pathline, ':');
-			free(pathline);
 			break;
 		}
 		i++;
 	}
-	result = ft_chkaccess(paths, cmd, options);
+	result = ft_chkaccess(paths, cmd, options);	
+	free(pathline);
+	free(paths);
 	return (result);
 }
 
