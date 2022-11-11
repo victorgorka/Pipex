@@ -6,7 +6,7 @@
 /*   By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 15:03:43 by vde-prad          #+#    #+#             */
-/*   Updated: 2022/11/08 17:46:52 by vde-prad         ###   ########.fr       */
+/*   Updated: 2022/11/11 19:30:32 by vde-prad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "libft/libft.h"
+//************************** DEFINITIONS *************************************
+// typedef struct s_data{
+// } t_data;
 //*************************** FUNCTIONS **************************************
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char	*ft_substr(char const *s, unsigned int start, size_t len);

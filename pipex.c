@@ -6,7 +6,7 @@
 /*   By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 17:44:12 by vde-prad          #+#    #+#             */
-/*   Updated: 2022/11/11 18:05:16 by vde-prad         ###   ########.fr       */
+/*   Updated: 2022/11/11 19:30:22 by vde-prad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -48,30 +48,32 @@ void	ft_freepaths(char	**paths, int	i)
 	free(paths);
 }
 
-char	*ft_setssufix(char	*cmd)
+void	ft_setssufix(char	**paths, char	*cmd)
 {
 	char	*sufix;
+	int		i;
 
+	i = 0;
 	sufix = malloc((ft_strlen(cmd) + 1) * sizeof(char));
 	if (!sufix)
 		perror("Error en reserva de memoria en 'sufix'\n");
 	sufix = ft_strjoin("/", cmd);
-	return (sufix);
+	while (paths[i])
+	{
+		paths[i] = ft_strjoin(paths[i], sufix);
+		i++;	
+	}
 }
 
 char	**ft_chkaccess(char	**paths, char	*cmd, char	*options)
 {
 	int		i;
-	char	*sufix;
 	char	**res;
 
-	sufix = ft_setssufix(cmd);
+	ft_setssufix(paths, cmd);
 	res = malloc(3 * sizeof(char *));
 	if (!res)
 		return (0);
-	i = -1;
-	while (paths[++i])
-		paths[i] = ft_strjoin(paths[i], sufix);
 	i = 0;
 	while (paths[i])
 	{
@@ -118,7 +120,6 @@ char	**ft_getpath(char **ep, char *cmd, char *options)
 //     int		pp1[2];
 //     int		pid;
 //     int		status;
-//     char	*argv[] = {"/bin/cat", "-e", 0, "/usr/bin/wc", "-l", 0};
 // 
 //     (void)av;
 //     (void)ac;
@@ -142,10 +143,12 @@ char	**ft_getpath(char **ep, char *cmd, char *options)
 //     close(pp1[0]);
 //     close(fdin);
 //     close(fdout);
-	// waitpid(pid, &status, 0);
+//     waitpid(pid, &status, 0);
 // } 
-//pp[0]--->lectura en pipe
-//pp[1]--->escritura en pipe
+// pp[0]--->lectura en pipe
+// pp[1]--->escritura en pipe
+// char	*argv[] = {"/bin/cat", "-e", 0, "/usr/bin/wc", "-l", 0};
+
 int main(int argc, char *argv[], char **ep)
 {
 	char	**paths;
