@@ -22,9 +22,9 @@ void	ft_parserarg(char	**av, t_argdata *pdata)
 		i++;
 	}
 	pdata->cmd[0] = ft_strdup(av[2]);
-	pdata->options[0] = ft_strdup(&av[2][ft_strlen(pdata->cmd[0] + 1)]);
+	pdata->options[0] = ft_strdup(&av[2][ft_strlen(pdata->cmd[0]) + 1]);
 	pdata->cmd[1] = ft_strdup(av[3]);
-	pdata->options[1] = ft_strdup(&av[3][ft_strlen(pdata->cmd[1] + 1)]);
+	pdata->options[1] = ft_strdup(&av[3][ft_strlen(pdata->cmd[1]) + 1]);
 }
 
 int main(int argc, char *argv[], char **ep)

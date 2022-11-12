@@ -6,7 +6,7 @@
 /*   By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 17:44:12 by vde-prad          #+#    #+#             */
-/*   Updated: 2022/11/12 17:12:54 by vde-prad         ###   ########.fr       */
+/*   Updated: 2022/11/12 19:06:35 by vde-prad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -116,7 +116,7 @@ char	**ft_getpath(char **ep, char *cmd, char *options)
 	return (ft_chkaccess(paths, cmd, options));
 }
 
-void	ft_parserarg(char	**av, t_argdata data)
+void	ft_parserarg(char	**av, t_argdata *pdata)
 {
 	int	i;
 	int	j;
@@ -127,9 +127,9 @@ void	ft_parserarg(char	**av, t_argdata data)
 	{
 		while (av[i][j] != 0)
 		{
-			if (av[i][j] == " ")
-			{	
-				av[i][j] = "\0";
+			if (av[i][j] == ' ')
+			{
+				av[i][j] = '\0';
 				break;
 			}
 			j++;
@@ -137,10 +137,10 @@ void	ft_parserarg(char	**av, t_argdata data)
 		j = 0;
 		i++;
 	}
-	data.cmd[0] = ft_strdup(av[2]);
-	data.options[0] = ft_strdup(av[2][ft_strlen(data.cmd[0] + 1)]);
-	data.cmd[1] = ft_strdup(av[3]);
-	data.options[1] = ft_strdup(av[3][ft_strlen(data.cmd[1] + 1)]);
+	pdata->cmd[0] = ft_strdup(av[2]);
+	pdata->options[0] = ft_strdup(&av[2][ft_strlen(pdata->cmd[0]) + 1]);
+	pdata->cmd[1] = ft_strdup(av[3]);
+	pdata->options[1] = ft_strdup(&av[3][ft_strlen(pdata->cmd[1]) + 1]);
 }
 
 void	ft_setdata(t_argdata data, char	**av)
