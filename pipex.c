@@ -6,31 +6,32 @@
 /*   By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 17:44:12 by vde-prad          #+#    #+#             */
-/*   Updated: 2022/11/11 19:30:22 by vde-prad         ###   ########.fr       */
+/*   Updated: 2022/11/12 13:12:52 by vde-prad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
 
 
-void	child(int fdin, int *pipe, char **ep, char **av)
+void	child(t_argdata data, char **ep)
 {
-	dup2(fdin, STDIN_FILENO);
-	dup2(pipe[1], STDOUT_FILENO);
-	close(pipe[1]);
-	close(pipe[0]);
+
+	dup2(data.fdin, STDIN_FILENO);
+	dup2(data.pp[1], STDOUT_FILENO);
+	close(data.pp[1]);
+	close(data.pp[0]);
 	execve(av[0], &av[0], ep);
-	printf("Error 1: execve failed\n");
+	perror("Error 1: execve failed\n");
 	exit(-1);
 }
 
-void	child2(int fdout, int *pipe, char **ep, char **av)
+void	child2(t_argdata data, char **ep)
 {
 	dup2(fdout, STDOUT_FILENO);
-	dup2(pipe[0], STDIN_FILENO);
-	close(pipe[1]);
-	close(pipe[0]);
+	dup2(data.pp[0], STDIN_FILENO);
+	close(data.pp[1]);
+	close(data.pp[0]);
 	execve(av[0], &av[0], ep);
-	printf("Error 2: execve failed\n");
+	perror("Error 2: execve failed\n");
 	exit(-1);
 }
 
@@ -63,6 +64,7 @@ void	ft_setssufix(char	**paths, char	*cmd)
 		paths[i] = ft_strjoin(paths[i], sufix);
 		i++;	
 	}
+	free(sufix);
 }
 
 char	**ft_chkaccess(char	**paths, char	*cmd, char	*options)
@@ -113,54 +115,76 @@ char	**ft_getpath(char **ep, char *cmd, char *options)
 	return (ft_chkaccess(paths, cmd, options));
 }
 
-// int main(int ac, char **av, char **ep)
-// {
-//     int		fdin = open("infile", O_RDONLY);
-//     int		fdout = open("outfile", O_WRONLY);
-//     int		pp1[2];
-//     int		pid;
-//     int		status;
-// 
-//     (void)av;
-//     (void)ac;
-//     if (pipe(pp1) == 1)
-//     {
-//         printf("Error al abrir los pipes\n");
-//         exit(-1);
-//     }
-//     pid = fork();
-//     if (pid == 0)
-//     {
-//         pid = fork();
-//         if (pid == 0)
-//         {
-//             child(fdin, pp1, ep, &argv[0]);
-//         }
-//         waitpid(pid, &status, 0);
-//         child2(fdout, pp1, ep, &argv[3]);
-//     } 
-//     close(pp1[1]);
-//     close(pp1[0]);
-//     close(fdin);
-//     close(fdout);
-//     waitpid(pid, &status, 0);
-// } 
+void	ft_setdata(t_argdata data, char	**av)
+{
+	if (!access(av[1], F_OK | R_OK))
+		data.fdin = open(av[1], O_RDONLY);
+	else
+		perror("Error: input file invalid");
+	if (!access(av[4]), F_OK | W_OK)
+		data.fdout = open(av[4], O_WRONLY);
+	else
+		perror("Error: output file invalid");
+	data.cmd1 = ft_strdup(av[2]);
+	data.cmd2 = ft_strdup(av[3]);
+	if (pipe(data.pp) == 1)
+	{
+		perror("Error: pipe daemon error");
+		exit(-1);
+	}
+}
+
+int main(int ac, char **av, char **ep)
+{
+	int		pp1[2];
+	int		pid;
+	int		status;
+	t_argdata data;
+
+	if(ac == 5)
+		ft_setdata(data, av);
+	else{
+		perror("Error: number of arguments not correct");
+		return (0);
+	}
+	if (pipe(pp1) == 1)
+	{
+		perror("Error al abrir los pipes\n");
+		exit(-1);
+	}
+	pid = fork();
+	if (pid == 0)
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			child(data,ep);
+		}
+		waitpid(pid, &status, 0);
+		child2(data, ep);
+	} 
+	close(pp1[1]);
+	close(pp1[0]);
+	close(data.fdin);
+	close(data.fdout);
+	waitpid(pid, &status, 0);
+} 
 // pp[0]--->lectura en pipe
 // pp[1]--->escritura en pipe
 // char	*argv[] = {"/bin/cat", "-e", 0, "/usr/bin/wc", "-l", 0};
 
-int main(int argc, char *argv[], char **ep)
-{
-	char	**paths;
-	int		i;
-
-	i = -1;
-	(void)argc;
-	(void)argv;
-	paths = ft_getpath(ep, "cat", "-e");
-	while (paths[++i])
-	{
-		puts(paths[i]);
-		free(paths[i]);
-	}
-}
+// int main(int argc, char *argv[], char **ep)
+// {
+//     char	**paths;
+//     int		i;
+// 
+//     i = -1;
+//     (void)argc;
+//     (void)argv;
+//     paths = ft_getpath(ep, "cat", "-e");
+//     while (paths[++i])
+//     {
+//         puts(paths[i]);
+//         free(paths[i]);
+//     }
+// }
