@@ -6,7 +6,7 @@
 /*   By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 15:03:43 by vde-prad          #+#    #+#             */
-/*   Updated: 2022/11/12 13:19:15 by vde-prad         ###   ########.fr       */
+/*   Updated: 2022/11/12 17:10:13 by vde-prad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,8 @@ typedef struct s_argdata{
 	int		fdin;
 	int		fdout;
 	int		pp[2];
-	char	*cmd1;
-	char	*options1;
-	char	*cmd2;
-	char	*options2;
+	char	*cmd[2];
+	char	*options[2];
 } t_argdata;
 //*************************** FUNCTIONS **************************************
 

@@ -1,39 +1,46 @@
 #include "pipex.h"
 
-char	**parsepath(char **ep)
+void	ft_parserarg(char	**av, t_argdata *pdata)
 {
-	unsigned int	i;
-	char	*pathline;
-	char	**paths;
+	int	i;
+	int	j;
 
-	i = 0;
-	while (ep[i])
+	i = 2;
+	j = 0;
+	while (i != 4)
 	{
-		pathline = ft_strnstr(ep[i], "PATH", 5);
-		if (pathline)
+		while (av[i][j] != 0)
 		{
-			pathline = ft_substr(pathline, 5, 200);
-			paths = ft_split(pathline, ':');
-			free(pathline);
-			return (paths);
+			if (av[i][j] == ' ')
+			{
+				av[i][j] = '\0';
+				break;
+			}
+			j++;
 		}
+		j = 0;
 		i++;
 	}
-	return 0;
+	pdata->cmd[0] = ft_strdup(av[2]);
+	pdata->options[0] = ft_strdup(&av[2][ft_strlen(pdata->cmd[0] + 1)]);
+	pdata->cmd[1] = ft_strdup(av[3]);
+	pdata->options[1] = ft_strdup(&av[3][ft_strlen(pdata->cmd[1] + 1)]);
 }
 
 int main(int argc, char *argv[], char **ep)
 {
-	char	**paths;
-	int		i;
-
+	t_argdata data;
+	
 	(void)argc;
-	(void)argv;
-	paths = parsepath(ep);
-	while (paths[i])
-	{
-		puts(paths[i]);
-		free(paths[i]);
-		i++;
-	}
+	(void)ep;
+	
+	data.fdin = 0;
+	data.fdout = 0;
+	data.pp[0] = 0;
+	data.pp[1] = 0;
+	ft_parserarg(argv, &data);
+	puts(data.cmd[0]);
+	puts(data.options[0]);
+	puts(data.cmd[1]);
+	puts(data.options[1]);
 }
