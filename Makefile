@@ -10,7 +10,10 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRCS	= pipex.c
+SRCS	= 	pipex.c \
+		  	setdata.c \
+			parserpath.c
+
 OBJS	= ${SRCS:.c=.o}
 NAME	= pipex
 LIBRARY = libft/libft.a

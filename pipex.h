@@ -18,6 +18,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/wait.h>
 #include "libft/libft.h"
 //************************** DEFINITIONS *************************************
 typedef struct s_argdata{
@@ -28,5 +29,10 @@ typedef struct s_argdata{
 	char	*options[2];
 } t_argdata;
 //*************************** FUNCTIONS **************************************
-
+void	ft_setdata(t_argdata *pdata, char	**av);
+void	ft_parserarg(char	**av, t_argdata *pdata);
+char	**ft_getpath(char **ep, char *cmd, char *options);
+char	**ft_chkaccess(char	**paths, char	*cmd, char	*options);
+void	ft_setssufix(char	**paths, char	*cmd);
+void	ft_freepaths(char	**paths, int	i);
 #endif
