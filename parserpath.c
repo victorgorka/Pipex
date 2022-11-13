@@ -12,7 +12,6 @@ void	ft_freepaths(char	**paths, int	i)
 		n++;
 	}
 	free(paths);
-	puts("sale de ft_freepaths");
 }
 
 void	ft_setssufix(char	**paths, char	*cmd)
@@ -23,7 +22,7 @@ void	ft_setssufix(char	**paths, char	*cmd)
 	i = 0;
 	sufix = malloc((ft_strlen(cmd) + 1) * sizeof(char));
 	if (!sufix)
-		perror("Error en reserva de memoria en '))sufix'\n");
+		perror("Error en reserva de memoria en 'sufix'\n");
 	sufix = ft_strjoin("/", cmd);
 	while (paths[i])
 	{
@@ -31,7 +30,6 @@ void	ft_setssufix(char	**paths, char	*cmd)
 		i++;	
 	}
 	free(sufix);
-	puts("sale de ft_setsufix");
 }
 
 char	**ft_chkaccess(char	**paths, char	*cmd, char	*options)
@@ -48,19 +46,14 @@ char	**ft_chkaccess(char	**paths, char	*cmd, char	*options)
 	{
 		if (!access(paths[i], F_OK | R_OK))
 		{
-			puts(paths[i]);
 			res[0] = ft_strdup(paths[i]);
 			res[1] = ft_strdup(options);
 			res[2] = NULL;
-			//ft_freepaths(paths, i);
-			puts("ft_chkaccess devuelve res");
-			puts(res[0]);
-			puts(res[1]);
+			ft_freepaths(paths, i);
 			return (res);
 		}
 		i++;
 	}
-	puts("ft_chkaccess devuelve 0");
 	return (0);
 }
 
@@ -84,7 +77,6 @@ char	**ft_getpath(char **ep, char *cmd, char *options)
 		i++;
 	}
 	free(pathline);
-	puts("sale de getpath");
 	return (ft_chkaccess(paths, cmd, options));
 }
 
