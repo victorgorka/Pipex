@@ -7,6 +7,8 @@ void	ft_parserarg(char	**av, t_argdata *pdata)
 
 	i = 2;
 	j = 0;
+	pdata->options[0] = NULL;
+	pdata->options[1] = NULL;
 	while (i != 4)
 	{
 		while (av[i][j] != 0)
@@ -14,6 +16,7 @@ void	ft_parserarg(char	**av, t_argdata *pdata)
 			if (av[i][j] == ' ')
 			{
 				av[i][j] = '\0';
+				pdata->options[i - 2] = ft_strdup(&av[i][ft_strlen(&av[i][0]) + 1]);
 				break;
 			}
 			j++;
@@ -22,9 +25,7 @@ void	ft_parserarg(char	**av, t_argdata *pdata)
 		i++;
 	}
 	pdata->cmd[0] = ft_strdup(av[2]);
-	pdata->options[0] = ft_strdup(&av[2][ft_strlen(pdata->cmd[0]) + 1]);//TODO a veces no hay opciones
 	pdata->cmd[1] = ft_strdup(av[3]);
-	pdata->options[1] = ft_strdup(&av[3][ft_strlen(pdata->cmd[1]) + 1]);//TODO a veeces no hay opciones
 }
 //set fdin, fdout, pp, cmd and options in data structure
 void	ft_setdata(t_argdata *pdata, char	**av)

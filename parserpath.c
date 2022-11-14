@@ -47,7 +47,7 @@ char	**ft_chkaccess(char	**paths, char	*cmd, char	*options)
 		if (!access(paths[i], F_OK | R_OK))
 		{
 			res[0] = ft_strdup(paths[i]);
-			res[1] = ft_strdup(options);
+			res[1] = options;
 			res[2] = NULL;
 			ft_freepaths(paths, i);
 			return (res);

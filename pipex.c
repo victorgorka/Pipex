@@ -50,7 +50,7 @@ int main(int ac, char **av, char **ep)
 	if(ac == 5)
 		ft_setdata(&data, av);
 	else{
-		perror("Error: number of arguments not correct");
+		ft_printf("Error: number of arguments not correct");
 		return (0);
 	}
 	pid = fork();
@@ -58,10 +58,8 @@ int main(int ac, char **av, char **ep)
 	{
 		pid = fork();
 		if (pid == 0)
-		{
 			 child(data,ep);
-		}
-				child2(data, ep);
+		child2(data, ep);
 	} 
 	close(data.pp[1]);
 	close(data.pp[0]);
