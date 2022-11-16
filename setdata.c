@@ -17,7 +17,7 @@ void	ft_parserarg(char	**av, t_argdata *pdata)
 			{
 				av[i][j] = '\0';
 				pdata->options[i - 2] = ft_strdup(&av[i][ft_strlen(&av[i][0]) + 1]);
-				break;
+				break ;
 			}
 			j++;
 		}
@@ -50,4 +50,3 @@ void	ft_setdata(t_argdata *pdata, char	**av)
 	}
 	ft_parserarg(av, pdata);
 }
-

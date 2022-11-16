@@ -1,6 +1,6 @@
 #include "pipex.h"
 
-void	ft_freepaths(char	**paths, int	i)
+void	ft_freepaths(char **paths, int i)
 {
 	int	n;
 
@@ -8,7 +8,7 @@ void	ft_freepaths(char	**paths, int	i)
 	while (paths[n])
 	{
 		if (n != i)
-			free(paths[n]);	
+			free(paths[n]);
 		n++;
 	}
 	free(paths);
@@ -27,7 +27,7 @@ void	ft_setssufix(char	**paths, char	*cmd)
 	while (paths[i])
 	{
 		paths[i] = ft_strjoin(paths[i], sufix);
-		i++;	
+		i++;
 	}
 	free(sufix);
 }
@@ -60,8 +60,8 @@ char	**ft_chkaccess(char	**paths, char	*cmd, char	*options)
 char	**ft_getpath(char **ep, char *cmd, char *options)
 {
 	unsigned int	i;
-	char	*pathline;
-	char	**paths;
+	char			*pathline;
+	char			**paths;
 
 	paths = NULL;
 	i = 0;
@@ -72,11 +72,10 @@ char	**ft_getpath(char **ep, char *cmd, char *options)
 		{
 			pathline = ft_substr(pathline, 5, 200);
 			paths = ft_split(pathline, ':');
-			break;
+			break ;
 		}
 		i++;
 	}
 	free(pathline);
 	return (ft_chkaccess(paths, cmd, options));
 }
-

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 #include "pipex.h"
 
-
 void	child(t_argdata data, char **ep)
 {
 	char	**av;
@@ -40,33 +39,30 @@ void	child2(t_argdata data, char **ep)
 	exit(-1);
 }
 
-int main(int ac, char **av, char **ep)
+int	main(int ac, char **av, char **ep)
 {
-	 int		pid;
-	 int		status;
-	 t_argdata data;
- 
+	int			pid;
+	int			status;
+	t_argdata	data;
 
-	if(ac == 5)
+	if (ac == 5)
 		ft_setdata(&data, av);
-	else{
+	else
 		ft_printf("Error: number of arguments not correct");
-		return (0);
-	}
 	pid = fork();
 	if (pid == 0)
 	{
 		pid = fork();
 		if (pid == 0)
-			 child(data,ep);
+			child(data, ep);
 		child2(data, ep);
-	} 
+	}
 	close(data.pp[1]);
 	close(data.pp[0]);
 	waitpid(pid, &status, 0);
 	close(data.fdin);
 	close(data.fdout);
-} 
+}
 // pp[0]--->lectura en pipe
 // pp[1]--->escritura en pipe
 // char	*argv[] = {"/bin/cat", "-e", 0, "/usr/bin/wc", "-l", 0};
