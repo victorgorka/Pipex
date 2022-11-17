@@ -6,7 +6,7 @@
 /*   By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 16:45:28 by vde-prad          #+#    #+#             */
-/*   Updated: 2022/06/17 16:40:05 by vde-prad         ###   ########.fr       */
+/*   Updated: 2022/11/17 19:50:29 by vde-prad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include<stdlib.h>
@@ -73,6 +73,14 @@ char	**ft_split(char const *s, char c)
 		return (0);
 	while (cpy[i])
 	{
+		if (cpy[i] == ''' || cpy[i] == '"')
+		{
+			i++;
+			while (cpy[i] != ''' || cpy[i] != '"')
+			{
+				i++;
+			}
+		}
 		if (cpy[i] == c)
 			cpy[i] = '\0';
 		i++;

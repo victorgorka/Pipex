@@ -6,7 +6,7 @@
 #    By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/08 11:02:01 by vde-prad          #+#    #+#              #
-#    Updated: 2022/11/11 17:57:41 by vde-prad         ###   ########.fr        #
+#    Updated: 2022/11/13 18:52:30 by vde-prad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ OBJS	= ${SRCS:.c=.o}
 NAME	= pipex
 LIBRARY = libft/libft.a
 CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror -g
+CFLAGS	= -Wall -Wextra -Werror
 RM		= rm -f
 
 ################# RULES #####################
@@ -41,7 +41,6 @@ clean:
 	@${RM} ${OBJS}
 
 fclean: clean
-	@echo "LIMPIANDO"
 	@${MAKE} -C ./libft fclean
 	@${RM} ${NAME}
 

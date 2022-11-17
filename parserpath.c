@@ -1,20 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parserpath.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/16 17:45:50 by vde-prad          #+#    #+#             */
+/*   Updated: 2022/11/17 20:09:34 by vde-prad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "pipex.h"
 
-void	ft_freepaths(char **paths, int i)
+static void	ft_freepaths(char **paths)
 {
 	int	n;
 
 	n = 0;
 	while (paths[n])
 	{
-		if (n != i)
-			free(paths[n]);
+		free(paths[n]);
 		n++;
 	}
 	free(paths);
 }
 
-void	ft_setssufix(char	**paths, char	*cmd)
+static void	ft_setssufix(char	**paths, char	*cmd)
 {
 	char	*sufix;
 	int		i;
@@ -22,7 +32,7 @@ void	ft_setssufix(char	**paths, char	*cmd)
 	i = 0;
 	sufix = malloc((ft_strlen(cmd) + 1) * sizeof(char));
 	if (!sufix)
-		perror("Error en reserva de memoria en 'sufix'\n");
+		ft_putstr_fd("Error en reserva de memoria en 'sufix'\n", 2);
 	sufix = ft_strjoin("/", cmd);
 	while (paths[i])
 	{
@@ -32,10 +42,10 @@ void	ft_setssufix(char	**paths, char	*cmd)
 	free(sufix);
 }
 
-char	**ft_chkaccess(char	**paths, char	*cmd, char	*options)
+static char	*ft_chkaccess(char	**paths, char	*cmd)
 {
 	int		i;
-	char	**res;
+	char	*res;
 
 	ft_setssufix(paths, cmd);
 	res = malloc(3 * sizeof(char *));
@@ -46,18 +56,17 @@ char	**ft_chkaccess(char	**paths, char	*cmd, char	*options)
 	{
 		if (!access(paths[i], F_OK | R_OK))
 		{
-			res[0] = ft_strdup(paths[i]);
-			res[1] = options;
-			res[2] = NULL;
-			ft_freepaths(paths, i);
+			res = ft_strdup(paths[i]);
+			ft_freepaths(paths);
 			return (res);
 		}
 		i++;
 	}
-	return (0);
+	ft_putstr_fd("Error: command not found", 2);
+	exit(127);
 }
 
-char	**ft_getpath(char **ep, char *cmd, char *options)
+char	*ft_getpath(char **ep, char *cmd)
 {
 	unsigned int	i;
 	char			*pathline;
@@ -77,5 +86,5 @@ char	**ft_getpath(char **ep, char *cmd, char *options)
 		i++;
 	}
 	free(pathline);
-	return (ft_chkaccess(paths, cmd, options));
+	return (ft_chkaccess(paths, cmd));
 }
