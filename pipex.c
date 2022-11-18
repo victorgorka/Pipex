@@ -6,7 +6,7 @@
 /*   By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 17:44:12 by vde-prad          #+#    #+#             */
-/*   Updated: 2022/11/17 18:55:27 by vde-prad         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:14:55 by vde-prad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -59,7 +59,10 @@ int	main(int ac, char **av, char **ep)
 	if (ac == 5)
 		ft_setdata(&data, av);
 	else
+	{
+		ft_putstr_fd("Error: number of arguments incorrect\n", 2);
 		exit(127);
+	}
 	pid = fork();
 	if (pid == 0)
 	{

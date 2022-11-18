@@ -6,7 +6,7 @@
 /*   By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 17:45:50 by vde-prad          #+#    #+#             */
-/*   Updated: 2022/11/17 20:09:34 by vde-prad         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:21:17 by vde-prad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -32,7 +32,7 @@ static void	ft_setssufix(char	**paths, char	*cmd)
 	i = 0;
 	sufix = malloc((ft_strlen(cmd) + 1) * sizeof(char));
 	if (!sufix)
-		ft_putstr_fd("Error en reserva de memoria en 'sufix'\n", 2);
+		ft_putstr_fd("Allocation memory fail\n", 2);
 	sufix = ft_strjoin("/", cmd);
 	while (paths[i])
 	{
@@ -62,7 +62,9 @@ static char	*ft_chkaccess(char	**paths, char	*cmd)
 		}
 		i++;
 	}
-	ft_putstr_fd("Error: command not found", 2);
+	ft_putstr_fd("Error: command not found: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd("\n", 2);
 	exit(127);
 }
 
