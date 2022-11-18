@@ -6,10 +6,10 @@
 /*   By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 17:48:26 by vde-prad          #+#    #+#             */
-/*   Updated: 2022/11/18 15:36:23 by vde-prad         ###   ########.fr       */
+/*   Updated: 2022/11/18 18:02:37 by vde-prad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "pipex.h"
+#include "../pipex.h"
 
 void	ft_parserarg(char	**av, t_argdata *pdata)
 {
@@ -19,7 +19,8 @@ void	ft_parserarg(char	**av, t_argdata *pdata)
 		pdata->options[1] = ft_split(av[3], ' ');
 		pdata->cmd[0] = ft_strdup(pdata->options[0][0]);
 		pdata->cmd[1] = ft_strdup(pdata->options[1][0]);
-	} else
+	}
+	else
 	{
 		ft_putstr_fd("Error: argument(s) empty\n", 2);
 		exit(127);

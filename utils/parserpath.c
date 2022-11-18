@@ -6,10 +6,10 @@
 /*   By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 17:45:50 by vde-prad          #+#    #+#             */
-/*   Updated: 2022/11/18 15:21:17 by vde-prad         ###   ########.fr       */
+/*   Updated: 2022/11/18 17:41:15 by vde-prad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "pipex.h"
+#include "../pipex.h"
 
 static void	ft_freepaths(char **paths)
 {

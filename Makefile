@@ -6,13 +6,13 @@
 #    By: vde-prad <vde-prad@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/08 11:02:01 by vde-prad          #+#    #+#              #
-#    Updated: 2022/11/13 18:52:30 by vde-prad         ###   ########.fr        #
+#    Updated: 2022/11/18 17:39:27 by vde-prad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS	= 	pipex.c \
-		  	setdata.c \
-			parserpath.c
+		  	utils/setdata.c \
+			utils/parserpath.c
 
 OBJS	= ${SRCS:.c=.o}
 NAME	= pipex
